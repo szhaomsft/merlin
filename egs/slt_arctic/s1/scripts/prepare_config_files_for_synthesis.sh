@@ -59,7 +59,8 @@ sed -i s#'test_synth_dir\s*:.*'#'test_synth_dir: %(TOPLEVEL)s/experiments/'${Voi
 if [ "$Voice" == "slt_arctic_demo" ]
 then
     sed -i s#'hidden_layer_size\s*:.*'#'hidden_layer_size: [512, 512, 512, 512]'# $duration_config_file
-    sed -i s#'hidden_layer_type\s*:.*'#'hidden_layer_type: ['\''TANH'\'', '\''TANH'\'', '\''TANH'\'', '\''TANH'\'']'# $duration_config_file
+    sed -i s#'hidden_layer_type\s*:.*'#'hidden_layer_type: ['\''TANH'\'', '\''LSTM'\'', '\''TANH'\'', '\''TANH'\'']'# $duration_config_file
+    sed -i s#'sequential_training\s*:.*'#'sequential_training: True'# $duration_config_file
 fi
 
 
@@ -186,7 +187,8 @@ fi
 if [ "$Voice" == "slt_arctic_demo" ]
 then
     sed -i s#'hidden_layer_size\s*:.*'#'hidden_layer_size: [512, 512, 512, 512]'# $acoustic_config_file
-    sed -i s#'hidden_layer_type\s*:.*'#'hidden_layer_type: ['\''TANH'\'', '\''TANH'\'', '\''TANH'\'', '\''TANH'\'']'# $acoustic_config_file
+    sed -i s#'hidden_layer_type\s*:.*'#'hidden_layer_type: ['\''TANH'\'', '\''LSTM'\'', '\''TANH'\'', '\''TANH'\'']'# $acoustic_config_file
+    sed -i s#'sequential_training\s*:.*'#'sequential_training: True'# $acoustic_config_file
 fi
 
 

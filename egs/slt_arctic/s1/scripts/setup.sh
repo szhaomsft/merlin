@@ -46,16 +46,27 @@ if [[ ! -f ${data_dir}.zip ]]; then
     fi
     do_unzip=true
 fi
+
+fs=48000
+
 if [[ ! -d ${data_dir} ]] || [[ -n "$do_unzip" ]]; then
     echo "unzipping files......"
     rm -fr ${data_dir}
     rm -fr ${duration_dir}/data
     rm -fr ${acoustic_dir}/data
     unzip -q ${data_dir}.zip
+    
+ 
     mv ${data_dir}/merlin_baseline_practice/duration_data/ ${duration_dir}/data
     mv ${data_dir}/merlin_baseline_practice/acoustic_data/ ${acoustic_dir}/data
     mv ${data_dir}/merlin_baseline_practice/test_data/ ${synthesis_dir}
 fi
+
+if [ "$fs" -eq 48000 ]
+then
+    ./scripts/copyfeature.sh ${data_dir}/wav ${acoustic_dir}/data ${fs}
+fi
+ 
 echo "data is ready!"
 
 global_config_file=conf/global_settings.cfg
@@ -67,7 +78,7 @@ echo "Voice=${voice_name}" >> $global_config_file
 echo "Labels=state_align" >> $global_config_file
 echo "QuestionFile=questions-radio_dnn_416.hed" >> $global_config_file
 echo "Vocoder=WORLD" >> $global_config_file
-echo "SamplingFreq=16000" >> $global_config_file
+echo "SamplingFreq=${fs}" >> $global_config_file
 
 if [ "$voice_name" == "slt_arctic_demo" ]
 then
